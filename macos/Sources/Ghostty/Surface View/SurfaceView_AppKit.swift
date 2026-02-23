@@ -1451,6 +1451,10 @@ extension Ghostty {
             menu.addItem(withTitle: "Paste", action: #selector(paste(_:)), keyEquivalent: "")
 
             menu.addItem(.separator())
+            item = menu.addItem(withTitle: "Search with Google", action: #selector(searchWithGoogle(_:)), keyEquivalent: "")
+            item.setImageIfDesired(systemSymbolName: "magnifyingglass")
+
+            menu.addItem(.separator())
             item = menu.addItem(withTitle: "Split Right", action: #selector(splitRight(_:)), keyEquivalent: "")
             item.setImageIfDesired(systemSymbolName: "rectangle.righthalf.inset.filled")
             item = menu.addItem(withTitle: "Split Left", action: #selector(splitLeft(_:)), keyEquivalent: "")
@@ -1620,6 +1624,13 @@ extension Ghostty {
 
         @IBAction func changeTitle(_ sender: Any) {
             promptTitle()
+        }
+
+        @IBAction func searchWithGoogle(_ sender: Any?) {
+            guard let text = self.accessibilitySelectedText(), text.count > 0 else { return }
+            let query = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            guard let url = URL(string: "https://www.google.com/search?q=\(query)") else { return }
+            NSWorkspace.shared.open(url)
         }
 
         /// Show a user notification and associate it with this surface
