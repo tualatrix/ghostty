@@ -162,6 +162,15 @@ class AppDelegate: NSObject,
 #endif
         super.init()
 
+        UserDefaults.standard.register(defaults: [
+            // Match the standard macOS tab navigation shortcuts for the system-provided
+            // "Show Previous Tab" and "Show Next Tab" window menu items.
+            "NSUserKeyEquivalents": [
+                "Show Previous Tab": "@$[",
+                "Show Next Tab": "@$]",
+            ],
+        ])
+
         ghostty.delegate = self
     }
 
